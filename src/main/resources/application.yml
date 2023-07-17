@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/systgestionformation
+    username: donia
+    password: '13012003'
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop # Change to "create" if you want Hibernate to create tables
+      show-sql: true    # Set to true to show SQL statements in console
+
