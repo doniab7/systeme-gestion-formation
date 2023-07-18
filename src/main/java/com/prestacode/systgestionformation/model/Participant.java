@@ -1,6 +1,7 @@
 package com.prestacode.systgestionformation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Participant extends Utilisateur {
     private int nbr_heures_presence;
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Paiement> paiements;
 
     public Participant(String nom, String prenom, long tel, String email, String disponibilite, String remarques, boolean attestation, boolean etat, EtatPaiement etatPaiement, float montant_total, int nbr_heures_presence) {

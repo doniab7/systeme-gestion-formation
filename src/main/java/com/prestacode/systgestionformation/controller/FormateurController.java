@@ -32,6 +32,7 @@ private final FormateurService formateurService;
         return new ResponseEntity<>(formateur, HttpStatus.OK);
     }
 
+
     @PostMapping("/add")
     public ResponseEntity<Formateur> addEmployee(@RequestBody Formateur formateur) {
         Formateur newFormateur = formateurService.addFormateur(formateur);

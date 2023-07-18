@@ -1,5 +1,6 @@
 package com.prestacode.systgestionformation.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Paiement {
 
     @ManyToOne
     @JoinColumn(name = "participant_id")
+    @JsonBackReference
     private Participant participant;
 
     public Paiement(float montant, Date date_paiement, Participant participant) {

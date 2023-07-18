@@ -1,7 +1,6 @@
 package com.prestacode.systgestionformation.controller;
 
 
-import com.prestacode.systgestionformation.model.Formateur;
 import com.prestacode.systgestionformation.model.Participant;
 import com.prestacode.systgestionformation.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
