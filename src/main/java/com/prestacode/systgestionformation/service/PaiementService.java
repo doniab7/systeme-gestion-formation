@@ -43,7 +43,7 @@ public class PaiementService {
             Participant participant = optionalParticipant.get();
             List<Paiement> paiements = paiementRepository.findByParticipantId(id);
             float total = calculateTotal(paiements);
-            float reste = participant.getMontant_total() - total;
+            float reste = participant.getMontantTotal() - total;
             return paiements;
         }
         else {
@@ -65,7 +65,7 @@ public class PaiementService {
         if (optionalParticipant.isPresent()) {
             Participant participant = optionalParticipant.get();
             float total = calculateTotal(participant.getPaiements());
-            float reste = participant.getMontant_total() - total;
+            float reste = participant.getMontantTotal() - total;
             if (paiement.getMontant() <= reste){
                 paiement.setParticipant(participant);
                 return paiementRepository.save(paiement);

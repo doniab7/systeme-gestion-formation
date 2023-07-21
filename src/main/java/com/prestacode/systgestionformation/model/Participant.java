@@ -20,21 +20,21 @@ public class Participant extends Utilisateur {
     @Enumerated(EnumType.STRING)
     private EtatPaiement etatPaiement;
 
-    private float montant_total;
+    private float montantTotal;
 
-    private int nbr_heures_presence;
+    private int nbrHeuresPresence;
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Paiement> paiements;
 
-    public Participant(String nom, String prenom, long tel, String email, String disponibilite, String remarques, boolean attestation, boolean etat, EtatPaiement etatPaiement, float montant_total, int nbr_heures_presence) {
+    public Participant(String nom, String prenom, long tel, String email, String disponibilite, String remarques, boolean attestation, boolean etat, EtatPaiement etatPaiement, float montantTotal, int nbrHeuresPresence) {
         super(nom, prenom, tel, email, disponibilite, remarques);
         this.attestation = attestation;
         this.etat = etat;
         this.etatPaiement = etatPaiement;
-        this.montant_total = montant_total;
-        this.nbr_heures_presence = nbr_heures_presence;
+        this.montantTotal = montantTotal;
+        this.nbrHeuresPresence = nbrHeuresPresence;
     }
 
 

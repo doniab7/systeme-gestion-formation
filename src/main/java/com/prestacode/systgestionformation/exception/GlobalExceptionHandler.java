@@ -24,4 +24,16 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(FormationNotFoundException.class)
+    public ResponseEntity<String> handleFormationNotFoundException(FormationNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(ModuleNotFoundException.class)
+    public ResponseEntity<String> handleModuleNotFoundException(ModuleNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+
 }

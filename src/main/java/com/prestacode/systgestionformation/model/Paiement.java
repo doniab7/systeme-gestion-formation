@@ -19,16 +19,16 @@ public class Paiement {
     private Long id;
 
     private float montant;
-    private Date date_paiement;
+    private Date datePaiement;
 
     @ManyToOne
     @JoinColumn(name = "participant_id")
     @JsonBackReference
     private Participant participant;
 
-    public Paiement(float montant, Date date_paiement, Participant participant) {
+    public Paiement(float montant, Date datePaiement, Participant participant) {
         this.montant = montant;
-        this.date_paiement = date_paiement;
+        this.datePaiement = datePaiement;
         this.participant = participant;
     }
 
