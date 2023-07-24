@@ -27,6 +27,10 @@ public class Formation {
     @JsonManagedReference
     private List<Module> modules;
 
+    @OneToMany(mappedBy = "formation", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Session> sessions;
+
 
     public Formation(float duree, String description) {
         this.duree = duree;

@@ -52,7 +52,6 @@ public class ModuleController {
         return new ResponseEntity<>(updatedModule , HttpStatus.OK);
     }
 
-
     // DELETE a module
     @DeleteMapping("/delete/{moduleId}")
     public ResponseEntity<?> deleteModule(@PathVariable("moduleId") Long moduleId) {

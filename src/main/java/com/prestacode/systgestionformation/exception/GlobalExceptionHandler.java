@@ -35,5 +35,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<String> handleSessionNotFoundException(SessionNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SeanceNotFoundException.class)
+    public ResponseEntity<String> handleSeanceNotFoundException(SeanceNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 
 }

@@ -1,9 +1,6 @@
 package com.prestacode.systgestionformation.service;
 
-import com.prestacode.systgestionformation.exception.FormationNotFoundException;
-import com.prestacode.systgestionformation.exception.ModuleNotFoundException;
-import com.prestacode.systgestionformation.exception.PaymentAmountExceededException;
-import com.prestacode.systgestionformation.exception.UserNotFoundException;
+import com.prestacode.systgestionformation.exception.*;
 import com.prestacode.systgestionformation.model.Formation;
 import com.prestacode.systgestionformation.model.Module;
 import com.prestacode.systgestionformation.model.Paiement;
@@ -64,7 +61,16 @@ public class ModuleService {
 
 
     public Module updateModule(Module module) {
-        return moduleRepository.save(module);
+        Long moduleId = module.getId();
+        Optional<Module> optionalModule = moduleRepository.findById(moduleId);
+        if (optionalModule.isPresent()){
+            Module oldModule = optionalModule.get();
+            module.setFormation(oldModule.getFormation());
+            return moduleRepository.save(module);
+        }
+        else {
+            throw new SessionNotFoundException("module with id " + moduleId + " is not found");
+        }
     }
 
 
