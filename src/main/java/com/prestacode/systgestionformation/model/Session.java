@@ -1,11 +1,10 @@
 package com.prestacode.systgestionformation.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,27 +19,33 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nom;
-    private Date dateDebut;
-    private Date dateFin;
+    private String intitule;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
     private String description;
-    private float duree;
-
-    @ManyToOne
-    @JoinColumn(name = "formation_id")
-    @JsonBackReference
-    private Formation formation;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Seance> seances;
+    @JsonManagedReference(value = "session-modules")
+    private List<Module> modules;
 
-    public Session(String nom, Date dateDebut, Date dateFin, String description, float duree) {
-        this.nom = nom;
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "session-paiements")
+    private List<Paiement> paiements;
+
+    public Session(String intitule, LocalDate dateDebut, LocalDate dateFin, String description) {
+        this.intitule = intitule;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.description = description;
-        this.duree = duree;
+    }
+
+    public Session(String intitule, LocalDate dateDebut, LocalDate dateFin, String description, List<Module> modules, List<Paiement> paiements) {
+        this.intitule = intitule;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.description = description;
+        this.modules = modules;
+        this.paiements = paiements;
     }
 
 }

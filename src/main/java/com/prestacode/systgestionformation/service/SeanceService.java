@@ -1,14 +1,15 @@
 package com.prestacode.systgestionformation.service;
 
+import com.prestacode.systgestionformation.exception.ModuleNotFoundException;
 import com.prestacode.systgestionformation.exception.SeanceNotFoundException;
-import com.prestacode.systgestionformation.exception.SessionNotFoundException;
-import com.prestacode.systgestionformation.model.Seance;
-import com.prestacode.systgestionformation.model.Session;
-import com.prestacode.systgestionformation.repository.SeanceRepository;
-import com.prestacode.systgestionformation.repository.SessionRepository;
+import com.prestacode.systgestionformation.model.*;
+import com.prestacode.systgestionformation.model.Module;
+import com.prestacode.systgestionformation.repository.*;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +18,18 @@ import java.util.Optional;
 public class SeanceService {
 
     private final SeanceRepository seanceRepository;
-    private final SessionRepository sessionRepository;
+    private final ModuleRepository moduleRepository;
+    private final PaiementRepository paiementRepository;
+    private final PresenceRepository presenceRepository;
+    private final ParticipantRepository participantRepository;
 
-    public SeanceService(SeanceRepository seanceRepository, SessionRepository sessionRepository) {
+    @Autowired
+    public SeanceService(SeanceRepository seanceRepository, ModuleRepository moduleRepository, PaiementRepository paiementRepository, PresenceRepository presenceRepository, ParticipantRepository participantRepository) {
         this.seanceRepository = seanceRepository;
-        this.sessionRepository = sessionRepository;
+        this.moduleRepository = moduleRepository;
+        this.paiementRepository = paiementRepository;
+        this.presenceRepository = presenceRepository;
+        this.participantRepository = participantRepository;
     }
 
 
@@ -35,25 +43,43 @@ public class SeanceService {
     }
 
 
-    public List<Seance> getAllSeancesForSession(Long sessionId) {
-        Optional<Session> optionalSession = sessionRepository.findById(sessionId);
-        if (optionalSession.isPresent()){
-            return seanceRepository.findBySessionId(sessionId);
+    public List<Seance> getAllSeancesForModule(Long moduleId) {
+        Optional<Module> optionalModule = moduleRepository.findById(moduleId);
+        if (optionalModule.isPresent()){
+            return seanceRepository.findByModuleId(moduleId);
         }
         else {
-            throw new SessionNotFoundException("Session by id " + sessionId + " was not found" );
+            throw new ModuleNotFoundException("Module by id " + moduleId + " was not found" );
         }
     }
 
+   // when a séance is added the associative table presence is automatically filled with participants and the specific session
+    public Seance addSeance(Long moduleId, Seance seance) {
+        Optional<Module> optionalModule = moduleRepository.findById(moduleId);
+        if (optionalModule.isPresent()) {
+            Module module = optionalModule.get();
+            seance.setModule(module);
+            Session session = module.getSession();
+            List<Paiement> paiements = paiementRepository.findBySessionId(session.getId());
+            List<Presence> presences = new ArrayList<>();
+            //parcourir toutes les inscriptions de la session
+            for (Paiement paiement : paiements) {
 
-    public Seance addSeance(Long sessionId, Seance seance) {
-        Optional<Session> optionalSession = sessionRepository.findById(sessionId);
-        if (optionalSession.isPresent()) {
-            Session session = optionalSession.get();
-            seance.setSession(session);
+            Presence presence = new Presence();
+
+            // participant
+            Participant participant = paiement.getParticipant();
+            presence.setParticipant(participant);
+            participant.getPresences().add(presence);
+
+            presence.setSeance(seance);
+            presence.setPresent(false);
+            presences.add(presence);
+            }
+            seance.setPresences(presences);
             return seanceRepository.save(seance);
         } else {
-            throw new SessionNotFoundException("Session by id " + sessionId + " was not found" );
+            throw new ModuleNotFoundException("Module by id " + moduleId + " was not found" );
         }
     }
 
@@ -63,7 +89,8 @@ public class SeanceService {
         Optional<Seance> optionalSeance = seanceRepository.findById(seanceId);
         if (optionalSeance.isPresent()){
             Seance oldSeance = optionalSeance.get();
-            seance.setSession(oldSeance.getSession());
+            seance.setModule(oldSeance.getModule());
+            seance.setPresences(oldSeance.getPresences());
             return seanceRepository.save(seance);
         }
         else{

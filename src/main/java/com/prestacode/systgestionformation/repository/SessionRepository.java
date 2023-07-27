@@ -20,6 +20,4 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     @NonNull
     Optional<Session> findById(@NonNull Long id);
 
-    @Query("SELECT s FROM Session s WHERE s.formation.id = :formationId")
-    List<Session> findByFormationId(Long formationId);
 }

@@ -20,32 +20,45 @@ public class ModuleController {
         this.moduleService = moduleService;
     }
 
+    //GET all modules
     @GetMapping("/all")
     public ResponseEntity<List<Module>> getAllModules(){
         List<Module> modules = moduleService.getAllModules();
         return new ResponseEntity<>(modules , HttpStatus.OK);
     }
 
+    // GET module with a specific id
     @GetMapping("/find/{moduleId}")
     public ResponseEntity<Module> getModuleById(@PathVariable("moduleId") Long moduleId) {
         Module module = moduleService.getModuleById(moduleId);
         return new ResponseEntity<>(module, HttpStatus.OK);
     }
 
-    // GET all modules for a specific formation
-    @GetMapping("/formation/{formationId}")
-    public ResponseEntity<List<Module>> getAllModulesForFormation(@PathVariable("formationId") Long formationId) {
-        List<Module> modules = moduleService.getAllModulesForFormation(formationId);
+    // GET all modules for a specific formateur
+    @GetMapping("/formateur/{formateurId}")
+    public ResponseEntity<List<Module>> getAllModulesForFormateur(@PathVariable("formateurId") Long formateurId) {
+        List<Module> modules = moduleService.getAllModulesForFormateur(formateurId);
         return new ResponseEntity<>(modules, HttpStatus.OK);
     }
 
-    // Add a module for a specific formation
-    @PostMapping("/add/{formationId}")
-    public ResponseEntity<Module> addModule(@PathVariable("formationId") Long formationId, @RequestBody Module module) {
-        Module createdModule = moduleService.addModule(formationId, module);
+    // GET all modules for a specific session
+    @GetMapping("/session/{sessionId}")
+    public ResponseEntity<List<Module>> getAllModulesForSession(@PathVariable("sessionId") Long sessionId) {
+        List<Module> modules = moduleService.getAllModulesForSession(sessionId);
+        return new ResponseEntity<>(modules, HttpStatus.OK);
+    }
+
+
+    // ADD a module for a specific session
+    //TODO: add a formateur as a parameter
+    @PostMapping("/add/{sessionId}")
+    public ResponseEntity<Module> addModuleForSession(@PathVariable("sessionId") Long sessionId, @RequestBody Module module) {
+        Module createdModule = moduleService.addModuleForSession(sessionId, module);
         return new ResponseEntity<>(createdModule, HttpStatus.CREATED);
     }
 
+
+    // UPDATE a module
     @PutMapping("/update")
     public ResponseEntity<Module> updateModule(@RequestBody Module module) {
         Module updatedModule = moduleService.updateModule(module);

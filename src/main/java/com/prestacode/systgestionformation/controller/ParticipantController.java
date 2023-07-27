@@ -39,6 +39,7 @@ public class ParticipantController {
         return new ResponseEntity<>(newParticipant, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/update")
     public ResponseEntity<Participant> updateParticipant(@RequestBody Participant participant) {
         Participant updatedParticipant = participantService.updateParticipant(participant);

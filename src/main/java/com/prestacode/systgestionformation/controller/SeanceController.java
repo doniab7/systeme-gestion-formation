@@ -32,18 +32,18 @@ public class SeanceController {
         return new ResponseEntity<>(seance, HttpStatus.OK);
     }
 
-    // GET all seances for a specific session
-    @GetMapping("/session/{sessionId}")
-    public ResponseEntity<List<Seance>> getAllSeancesForSession(@PathVariable("sessionId") Long sessionId) {
-        List<Seance> seances = seanceService.getAllSeancesForSession(sessionId);
+    // GET all séances for a specific module
+    @GetMapping("/module/{moduleId}")
+    public ResponseEntity<List<Seance>> getAllSeancesForModule(@PathVariable("moduleId") Long moduleId) {
+        List<Seance> seances = seanceService.getAllSeancesForModule(moduleId);
         return new ResponseEntity<>(seances, HttpStatus.OK);
     }
 
 
-    // Add a session for a specific formation
-    @PostMapping("/add/{sessionId}")
-    public ResponseEntity<Seance> addSeance(@PathVariable("sessionId") Long sessionId, @RequestBody Seance seance) {
-        Seance createdSeance = seanceService.addSeance(sessionId, seance);
+    // ADD a seance for a specific module
+    @PostMapping("/add/{moduleId}")
+    public ResponseEntity<Seance> addSeance(@PathVariable("moduleId") Long moduleId, @RequestBody Seance seance) {
+        Seance createdSeance = seanceService.addSeance(moduleId, seance);
         return new ResponseEntity<>(createdSeance, HttpStatus.CREATED);
     }
 
@@ -53,7 +53,7 @@ public class SeanceController {
         return new ResponseEntity<>(updatedSeance , HttpStatus.OK);
     }
 
-    // DELETE a session
+    // DELETE a séance
     @DeleteMapping("/delete/{seanceId}")
     public ResponseEntity<?> deleteSeance(@PathVariable("seanceId") Long seanceId) {
             seanceService.deleteSeance(seanceId);

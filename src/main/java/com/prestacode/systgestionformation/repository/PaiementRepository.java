@@ -1,6 +1,7 @@
 package com.prestacode.systgestionformation.repository;
 
 import com.prestacode.systgestionformation.model.Paiement;
+import com.prestacode.systgestionformation.model.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
@@ -21,6 +22,10 @@ public interface PaiementRepository extends JpaRepository<Paiement,Long> {
 
     @Query("SELECT p FROM Paiement p WHERE p.participant.id = :id")
     List<Paiement> findByParticipantId(Long id);
+
+    @Query("SELECT p FROM Paiement p WHERE p.session.id = :id")
+    List<Paiement> findBySessionId(Long id);
+
 
 
 }

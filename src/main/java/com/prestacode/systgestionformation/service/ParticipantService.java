@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,11 +35,23 @@ public class ParticipantService {
     }
 
     public Participant updateParticipant(Participant participant){
-        return participantRepository.save(participant);
+
+        Long participantId = participant.getId();
+        Optional<Participant> optionalParticipant = participantRepository.findById(participantId);
+        if (optionalParticipant.isPresent()){
+            Participant oldParticipant = optionalParticipant.get();
+            participant.setPaiements(oldParticipant.getPaiements());
+            participant.setPresences(oldParticipant.getPresences());
+            return participantRepository.save(participant);
+        }
+        else{
+            throw new UserNotFoundException("user with id "+ participantId + " is not found");
+        }
     }
 
     public void deleteParticipant(Long id){
         participantRepository.deleteById(id);
     }
+
 
 }

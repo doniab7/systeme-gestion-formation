@@ -1,10 +1,7 @@
 package com.prestacode.systgestionformation.service;
 
-import com.prestacode.systgestionformation.exception.FormationNotFoundException;
 import com.prestacode.systgestionformation.exception.SessionNotFoundException;
-import com.prestacode.systgestionformation.model.Formation;
 import com.prestacode.systgestionformation.model.Session;
-import com.prestacode.systgestionformation.repository.FormationRepository;
 import com.prestacode.systgestionformation.repository.SessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +15,11 @@ import java.util.Optional;
 public class SessionService {
 
     private final SessionRepository sessionRepository;
-    private final FormationRepository formationRepository;
+
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository, FormationRepository formationRepository) {
+    public SessionService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
-        this.formationRepository = formationRepository;
     }
 
 
@@ -37,26 +33,9 @@ public class SessionService {
     }
 
 
-    public List<Session> getAllSessionsForFormation(Long formationId) {
-        Optional<Formation> optionalFormation = formationRepository.findById(formationId);
-        if (optionalFormation.isPresent()){
-            return sessionRepository.findByFormationId(formationId);
-        }
-        else {
-            throw new FormationNotFoundException("Formation by id " + formationId + " was not found" );
-        }
-    }
 
-
-    public Session addSession(Long formationId, Session session) {
-        Optional<Formation> optionalFormation = formationRepository.findById(formationId);
-        if (optionalFormation.isPresent()) {
-            Formation formation = optionalFormation.get();
-            session.setFormation(formation);
-            return sessionRepository.save(session);
-        } else {
-            throw new FormationNotFoundException("Formation by id " + formationId + " was not found" );
-        }
+    public Session addSession(Session session) {
+        return sessionRepository.save(session);
     }
 
     public Session updateSession(Session session) {
@@ -64,7 +43,7 @@ public class SessionService {
         Optional<Session> optionalSession = sessionRepository.findById(sessionId);
         if (optionalSession.isPresent()){
             Session oldSession = optionalSession.get();
-            session.setFormation(oldSession.getFormation());
+            session.setModules(oldSession.getModules());
             return sessionRepository.save(session);
         }
         else{

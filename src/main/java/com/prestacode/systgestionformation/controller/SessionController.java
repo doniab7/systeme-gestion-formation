@@ -33,20 +33,14 @@ public class SessionController {
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
 
-    // GET all sessions for a specific formation
-    @GetMapping("/formation/{formationId}")
-    public ResponseEntity<List<Session>> getAllSessionsForFormation(@PathVariable("formationId") Long formationId) {
-        List<Session> sessions = sessionService.getAllSessionsForFormation(formationId);
-        return new ResponseEntity<>(sessions, HttpStatus.OK);
-    }
 
-
-    // Add a session for a specific formation
-    @PostMapping("/add/{formationId}")
-    public ResponseEntity<Session> addSession(@PathVariable("formationId") Long formationId, @RequestBody Session session) {
-        Session createdSession = sessionService.addSession(formationId, session);
+    // Add a session
+    @PostMapping("/add")
+    public ResponseEntity<Session> addSession(@RequestBody Session session) {
+        Session createdSession = sessionService.addSession(session);
         return new ResponseEntity<>(createdSession, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/update")
     public ResponseEntity<Session> updateSession(@RequestBody Session session) {
@@ -61,6 +55,7 @@ public class SessionController {
         sessionService.deleteSession(sessionId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 

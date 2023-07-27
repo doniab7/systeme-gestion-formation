@@ -1,5 +1,6 @@
 package com.prestacode.systgestionformation.service;
 
+
 import com.prestacode.systgestionformation.exception.UserNotFoundException;
 import com.prestacode.systgestionformation.model.Formateur;
 import com.prestacode.systgestionformation.repository.FormateurRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,7 +39,16 @@ public class FormateurService {
     }
 
     public Formateur updateFormateur(Formateur formateur) {
-        return formateurRepository.save(formateur);
+        Long formateurId = formateur.getId();
+        Optional<Formateur> optionalFormateur = formateurRepository.findById(formateurId);
+        if (optionalFormateur.isPresent()){
+            Formateur oldFormateur = optionalFormateur.get();
+            formateur.setModules(oldFormateur.getModules());
+            return formateurRepository.save(formateur);
+        }
+        else{
+            throw new UserNotFoundException("user with id "+ formateurId + " is not found");
+        }
     }
 
     public void deleteFormateur(Long id) {

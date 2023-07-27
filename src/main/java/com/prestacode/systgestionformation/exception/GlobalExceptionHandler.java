@@ -24,12 +24,6 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(FormationNotFoundException.class)
-    public ResponseEntity<String> handleFormationNotFoundException(FormationNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-
     @ExceptionHandler(ModuleNotFoundException.class)
     public ResponseEntity<String> handleModuleNotFoundException(ModuleNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -42,6 +36,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SeanceNotFoundException.class)
     public ResponseEntity<String> handleSeanceNotFoundException(SeanceNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TrancheNotFoundException.class)
+    public ResponseEntity<String> handleTrancheNotFoundException(TrancheNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PresenceNotFoundException.class)
+    public ResponseEntity<String> handlePresenceNotFoundException(PresenceNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

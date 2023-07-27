@@ -18,8 +18,8 @@ public interface SeanceRepository extends JpaRepository<Seance , Long> {
     @NonNull
     Optional<Seance> findById(@NonNull Long id);
 
-    @Query("SELECT s FROM Seance s WHERE s.session.id = :sessionId")
-    List<Seance> findBySessionId(Long sessionId);
+    @Query("SELECT s FROM Seance s WHERE s.module.id = :moduleId")
+    List<Seance> findByModuleId(Long moduleId);
 
 
 }

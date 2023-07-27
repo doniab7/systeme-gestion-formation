@@ -42,11 +42,18 @@ public class PaiementController {
         return new ResponseEntity<>(paiements, HttpStatus.OK);
     }
 
-    // Add a payment for a specific participant
-    // id is participant id
-    @PostMapping("/add/{id}")
-    public ResponseEntity<Paiement> addPaiement(@PathVariable("id") Long id, @RequestBody Paiement paiement) {
-        Paiement createdPaiement = paiementService.addPaiement(id, paiement);
+    //GET all payments for a specific session
+    @GetMapping("/session/{sessionId}")
+    public ResponseEntity<List<Paiement>> getAllPaiementsForSession(@PathVariable("sessionId") Long sessionId) {
+        List<Paiement> paiements = paiementService.getAllPaiementsForSession(sessionId);
+        return new ResponseEntity<>(paiements, HttpStatus.OK);
+    }
+
+
+    // Add a payment (inscrire un participant a une session)
+    @PostMapping("/add")
+    public ResponseEntity<Paiement> addPaiement(@RequestParam Long participantId, @RequestParam Long sessionId, @RequestParam float montant) {
+        Paiement createdPaiement = paiementService.addPaiement(participantId, sessionId, montant);
         return new ResponseEntity<>(createdPaiement, HttpStatus.CREATED);
     }
 

@@ -19,6 +19,10 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
     @NonNull
     Optional<Module> findById(@NonNull Long id);
 
-    @Query("SELECT m FROM Module m WHERE m.formation.id = :formationId")
-    List<Module> findByFormationId(Long formationId);
+    @Query("SELECT m FROM Module m WHERE m.formateur.id = :formateurId")
+    List<Module> findByFormateurId(Long formateurId);
+
+    @Query("SELECT m FROM Module m WHERE m.session.id = :sessionId")
+    List<Module> findBySessionId(Long sessionId);
+
 }
